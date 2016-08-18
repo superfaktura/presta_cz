@@ -5,7 +5,7 @@ if ( !defined( '_PS_VERSION_' ) )
 
 /**
 *   Version 1.6.1
-*   Last modified 2016-07-22
+*   Last modified 2016-08-18
 */
 
 class SuperFaktura extends Module
@@ -24,18 +24,18 @@ class SuperFaktura extends Module
         $invoice_type;
 
     const API_AUTH_KEYWORD          = 'SFAPI';
-    const SF_URL_CREATE_INVOICE     = 'https://moja.superfaktura.sk/invoices/create';
-    const SF_URL_CREATE_CLIENT      = 'https://moja.superfaktura.sk/clients/create';
-    const SF_URL_PAY_INVOICE        = 'https://moja.superfaktura.sk/invoice_payments/add/ajax:1/api:1/import_type:prestashop/import_id:';
-    const SF_URL_CREATE_CANCEL      = 'https://moja.superfaktura.sk/invoices/cancelFromRegular/0/import_type:prestashop/import_id:';
-    const SF_URL_GET_PDF_INVOICE    = 'https://moja.superfaktura.sk/invoices/pdf/0/import_type:prestashop/import_id:';
-    const SF_URL_SEND_INVOICE       = 'https://moja.superfaktura.sk/invoices/send';
+    const SF_URL_CREATE_INVOICE     = 'https://moje.superfaktura.cz/invoices/create';
+    const SF_URL_CREATE_CLIENT      = 'https://moje.superfaktura.cz/clients/create';
+    const SF_URL_PAY_INVOICE        = 'https://moje.superfaktura.cz/invoice_payments/add/ajax:1/api:1/import_type:prestashop/import_id:';
+    const SF_URL_CREATE_CANCEL      = 'https://moje.superfaktura.cz/invoices/cancelFromRegular/0/import_type:prestashop/import_id:';
+    const SF_URL_GET_PDF_INVOICE    = 'https://moje.superfaktura.cz/invoices/pdf/0/import_type:prestashop/import_id:';
+    const SF_URL_SEND_INVOICE       = 'https://moje.superfaktura.cz/invoices/send';
 
     public function __construct()
     {
         $this->name          = "superfaktura";
         $this->tab           = "billing_invoicing";
-        $this->version       = 1.6;
+        $this->version       = '1.6.1';
         $this->author        = "www.superfaktura.sk";
         $this->need_instance = 1;
 
@@ -624,11 +624,6 @@ class SuperFaktura extends Module
             $data['Invoice']['invoice_currency'] = $currency->iso_code;
 
         //invoice items
-        echo '<pre>';
-        print_r($products);
-        echo '</pre>';
-        exit();
-        
         foreach ($products as $product)
         {
             $sku = $product['product_reference'];
@@ -665,7 +660,7 @@ class SuperFaktura extends Module
         //discount
         if(isset($order->total_discounts) && $order->total_discounts > 0){
             $data['InvoiceItem'][] = array(
-                'name'        => 'Zľava',
+                'name'        => 'Sleva',
                 'unit_price'  => ( $order->total_discounts / (1 + ($order->carrier_tax_rate / 100)))  * -1,
                 'tax'         => $order->carrier_tax_rate,
 
@@ -752,34 +747,4 @@ class SuperFaktura extends Module
             $this->_createInvoice($order, $cart);
         }
     }
-
-
-    /*public function hookDisplayPDFInvoice($params)
-    {
-        if (isset($params['object']->id_order))
-        {
-            $response = $this->_request(self::SF_URL_GET_PDF_INVOICE . $params['object']->id_order);
-
-            if ("" != $response)
-            {
-
-                header("Pragma: public"); // required
-                header("Expires: 0");
-                header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-                header("Cache-Control: private",false); // required for certain browsers
-
-                header("Content-Type: application/force-download");
-                header("Content-Disposition: attachment; filename=\"invoice.pdf\";" );
-
-                header("Content-Transfer-Encoding: binary");
-                header("Content-Length: ".strlen($response));
-
-                echo $response;
-
-                exit();
-            }
-        }
-    }*/
-
-
 }
