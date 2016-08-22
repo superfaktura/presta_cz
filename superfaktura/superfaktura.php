@@ -24,12 +24,12 @@ class SuperFaktura extends Module
         $invoice_type;
 
     const API_AUTH_KEYWORD          = 'SFAPI';
-    const SF_URL_CREATE_INVOICE     = 'https://moja.superfaktura.sk/invoices/create';
-    const SF_URL_CREATE_CLIENT      = 'https://moja.superfaktura.sk/clients/create';
-    const SF_URL_PAY_INVOICE        = 'https://moja.superfaktura.sk/invoice_payments/add/ajax:1/api:1/import_type:prestashop/import_id:';
-    const SF_URL_CREATE_CANCEL      = 'https://moja.superfaktura.sk/invoices/cancelFromRegular/0/import_type:prestashop/import_id:';
-    const SF_URL_GET_PDF_INVOICE    = 'https://moja.superfaktura.sk/invoices/pdf/0/import_type:prestashop/import_id:';
-    const SF_URL_SEND_INVOICE       = 'https://moja.superfaktura.sk/invoices/send';
+    const SF_URL_CREATE_INVOICE     = 'https://moje.superfaktura.cz/invoices/create';
+    const SF_URL_CREATE_CLIENT      = 'https://moje.superfaktura.cz/clients/create';
+    const SF_URL_PAY_INVOICE        = 'https://moje.superfaktura.cz/invoice_payments/add/ajax:1/api:1/import_type:prestashop/import_id:';
+    const SF_URL_CREATE_CANCEL      = 'https://moje.superfaktura.cz/invoices/cancelFromRegular/0/import_type:prestashop/import_id:';
+    const SF_URL_GET_PDF_INVOICE    = 'https://moje.superfaktura.cz/invoices/pdf/0/import_type:prestashop/import_id:';
+    const SF_URL_SEND_INVOICE       = 'https://moje.superfaktura.cz/invoices/send';
 
     public function __construct()
     {
@@ -660,7 +660,7 @@ class SuperFaktura extends Module
         //discount
         if(isset($order->total_discounts) && $order->total_discounts > 0){
             $data['InvoiceItem'][] = array(
-                'name'        => 'Zľava',
+                'name'        => 'Sleva',
                 'unit_price'  => ( $order->total_discounts / (1 + ($order->carrier_tax_rate / 100)))  * -1,
                 'tax'         => $order->carrier_tax_rate,
 
