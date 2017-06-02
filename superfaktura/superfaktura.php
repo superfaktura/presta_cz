@@ -740,11 +740,10 @@ class SuperFaktura extends Module
         
         //poslat fakturu emailom 
         if(isset($response->error) && $response->error == 0 && $this->send_invoice == 1){
-            $invoice = json_decode($response);    
             
             $request_data['Email'] =array(
-                'invoice_id' => $invoice->data->Invoice->id,
-                'to'  => $invoice->data->Client->email,
+                'invoice_id' => $response->data->Invoice->id,
+                'to'  => $response->data->Client->email,
             );
 
             $send = $this->_request(self::SF_URL_SEND_INVOICE, array('data' => json_encode($request_data)));
